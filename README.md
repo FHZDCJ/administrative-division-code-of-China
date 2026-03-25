@@ -19,11 +19,11 @@
 
 ### 联动数据
 
-| 文件                              |                      不包含行政区划编码                      |                       包含行政区划编码                       |
-| :-------------------------------- | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| 省级、地级（2级联动）             | [pc.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pc.json) | [pc-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pc-code.json) |
-| 省级、地级、县级（3级联动）       | [pca.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pca.json) | [pca-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pca-code.son) |
-| 省级、地级、县级、乡级（4级联动） | [pcsa.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pcsa.json) | [pcsa-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pcsa-code.json) |
+| 文件                              |                                               不包含行政区划编码                                               |                                                    包含行政区划编码                                                     |
+| :-------------------------------- |:-----------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
+| 省级、地级（2级联动）             |   [pc.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pc.json)   |   [pc-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pc-code.json)   |
+| 省级、地级、县级（3级联动）       |  [pca.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pca.json)  |  [pca-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pca-code.son)   |
+| 省级、地级、县级、乡级（4级联动） | [pcas.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pcas.json) | [pcas-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pcas-code.json) |
 
 ## 原始数据预览
 
