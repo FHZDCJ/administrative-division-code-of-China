@@ -4,7 +4,7 @@
 
 ## 数据来源
 
-本项目数据来源于民政部旗下的[中国•国家地名信息库](https://dmfw.mca.gov.cn/XzqhVersionPublish.html)，本项目当前已更新至当2025数据（截止日期为2025年12月31日）。
+本项目数据来源于民政部旗下的[中国•国家地名信息库](https://dmfw.mca.gov.cn/XzqhVersionPublish.html)，本项目当前已更新至2025年数据（截止日期为2025年12月31日）。
 
 由于香港特别行政区、澳门特别行政区、台湾省的相关区划代码尚未公布，因此本项目不包含上述三个行政区划的数据。
 
@@ -57,7 +57,7 @@
 | 名称           | 地址                                                                                                                                 |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------|
 | Github Pages | [https://fhzdcj.github.io/administrative-division-code-of-China/](https://fhzdcj.github.io/administrative-division-code-of-China/) |
-| 阿里云Pages     | [https://github.fhzdcj.cn/](https://cn-admin.fhzdcj.cn/)                                                                           |
+| 阿里云Pages     | [https://cn-admin.fhzdcj.cn/](https://cn-admin.fhzdcj.cn/)                                                                           |
 
 
 
