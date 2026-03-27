@@ -20,20 +20,20 @@
 
 ### 原始数据
 
-|                                                   文件名称                                                   |         文件说明          |
-|:--------------------------------------------------------------------------------------------------------:|:---------------------:|
-|  [data.csv](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/RawData/data.csv)  |     csv格式的完整原始数据      |
-| [data.xlsx](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/RawData/data.xlsx) |     xlsx格式的完整原始数据     |
-|   [data.db](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/RawData/data.db)   |  SQlite3数据库格式的完整原始数据  |
-| [data.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/RawData/data.json) | json格式的完整原始数据（包含层级联动） |
+|               文件名称               |         文件说明          |
+|:--------------------------------:|:---------------------:|
+|  [data.csv](./RawData/data.csv)  |     csv格式的完整原始数据      |
+| [data.xlsx](./RawData/data.xlsx) |     xlsx格式的完整原始数据     |
+|   [data.db](./RawData/data.db)   |  SQlite3数据库格式的完整原始数据  |
+| [data.json](./RawData/data.json) | json格式的完整原始数据（包含层级联动） |
 
 ### 联动数据
 
-| 文件                |                                               不包含行政区划编码                                               |                                                    包含行政区划编码                                                     |
-|:------------------|:-----------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
-| 省级、地级（2级联动）       |   [pc.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pc.json)   |   [pc-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pc-code.json)   |
-| 省级、地级、县级（3级联动）    |  [pca.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pca.json)  |  [pca-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pca-code.son)   |
-| 省级、地级、县级、乡级（4级联动） | [pcas.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pcas.json) | [pcas-code.json](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Dist/pcas-code.json) |
+| 文件                |           不包含行政区划编码           |                包含行政区划编码                 |
+|:------------------|:-----------------------------:|:---------------------------------------:|
+| 省级、地级（2级联动）       |   [pc.json](./Dist/pc.json)   |   [pc-code.json](./Dist/pc-code.json)   |
+| 省级、地级、县级（3级联动）    |  [pca.json](./Dist/pca.json)  |  [pca-code.json](./Dist/pca-code.son)   |
+| 省级、地级、县级、乡级（4级联动） | [pcas.json](./Dist/pcas.json) | [pcas-code.json](./Dist/pcas-code.json) |
 
 ## 原始数据预览
 
@@ -47,9 +47,9 @@
 
 ## 脚本
 
-|                                                     文件                                                     |                                    用途                                     |
-|:----------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------:|
-| [convert.py](https://github.com/FHZDCJ/administrative-division-code-of-China/blob/main/Scripts/convert.py) | 通过设置脚本参数，可以根据自己的需要生成json文件，支持自定义最大层级(1-4)，支持自定义启用name/code/level/type等数据。 |
+|                 文件                 |                                    用途                                     |
+|:----------------------------------:|:-------------------------------------------------------------------------:|
+| [convert.py](./Scripts/convert.py) | 通过设置脚本参数，可以根据自己的需要生成json文件，支持自定义最大层级(1-4)，支持自定义启用name/code/level/type等数据。 |
 
 ## 镜像资源
 本项目除了Github Pages以外，还使用阿里云ESA提供的Pages服务。
@@ -59,7 +59,7 @@
 | 名称           | 地址                                                                                                                                 |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------|
 | Github Pages | [https://fhzdcj.github.io/administrative-division-code-of-China/](https://fhzdcj.github.io/administrative-division-code-of-China/) |
-| 阿里云Pages     | [https://cn-admin.fhzdcj.cn/](https://cn-admin.fhzdcj.cn/)                                                                           |
+| 阿里云Pages     | [https://cn-admin.fhzdcj.cn/](https://cn-admin.fhzdcj.cn/)                                                                         |
 
 
 
@@ -78,11 +78,14 @@
 
 
 ## 开源协议 (License)
-本项目采用 **Apache License 2.0** 协议，并附加以下 **商业使用条款**：
-- **允许：** 自由地在商业项目、公司内部系统、个人项目中使用或集成。
-- **禁止：** 严禁任何个人或法人在未对本项目进行实质性二次开发或功能增强的情况下，将本项目（或其原始代码、原始数据、原始文档的完整副本或镜像）作为独立商品进行直接销售、分发、转授权或租赁牟利。
+本项目采用 [Silent Public License (SPL) v1.0](./LICENSE) 授权，核心原则如下：
 
-详细条款请参阅项目根目录下的 [LICENSE](./LICENSE) 文件。
+- ✅ **集成友好**：允许在商业或非商业项目中集成使用（如：作为地址联动选择器的数据源），**无需署名**，且**不会传染**您的主体项目（无需开源您的业务代码）。
+- 🔄 **强传染性**：如果您对本项目的网页 UI 或原始数据集进行修改、换壳并发布**直接衍生作品**，该衍生作品必须强制沿用 SPL 协议。
+- ❌ **严禁售卖**：禁止将本项目及其衍生品作为独立商品销售，或基于本项目核心功能进行任何形式的收费。
+- ⚖️ **合规要求**：严禁用于任何违反中华人民共和国法律法规的用途。
+
+详细条款请参阅 [LICENSE](./LICENSE) 文件。
 
 
 ## 数据来源及免责声明
