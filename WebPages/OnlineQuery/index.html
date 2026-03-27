@@ -84,22 +84,37 @@
                 </button>
             </div>
 
-            <div class="p-5 md:p-6 overflow-y-auto custom-scrollbar flex-1 flex flex-col gap-4">
-                <div v-for="src in dataSourcesList" :key="src.id" class="p-4 md:p-5 border border-slate-200 rounded-xl hover:border-blue-300 transition-colors bg-white">
-                    <div class="flex justify-between items-start md:items-center flex-col md:flex-row gap-2 mb-3">
-                        <div class="font-bold text-slate-800 text-base flex items-center gap-2 flex-wrap">
+            <div class="p-5 md:p-6 overflow-y-auto custom-scrollbar flex-1 flex flex-col gap-4 max-h-[50vh] md:max-h-[60vh]">
+                <div v-for="src in dataSourcesList" :key="src.id"
+                     :class="[
+                        'p-4 md:p-5 rounded-xl transition-all relative overflow-hidden',
+                        currentSourceId === src.id
+                            ? 'bg-blue-50/40 border-2 border-blue-500 shadow-md shadow-blue-500/10'
+                            : 'bg-white border border-slate-200 hover:border-blue-300'
+                     ]">
+
+                    <div v-if="currentSourceId === src.id" class="absolute top-0 right-0 bg-blue-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-bl-xl tracking-wider flex items-center gap-1 shadow-sm">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        当前使用
+                    </div>
+
+                    <div class="flex justify-between items-start md:items-center flex-col md:flex-row gap-2 mb-3 mt-1">
+                        <div class="font-bold text-base flex items-center gap-2 flex-wrap"
+                             :class="currentSourceId === src.id ? 'text-blue-800' : 'text-slate-800'">
                             {{ src.name }}
-                            <span class="text-xs text-slate-400 font-normal">({{ src.size }})</span>
-                            <span v-if="currentSourceId === src.id" class="px-2 py-0 bg-blue-50 text-blue-600 text-[12px] font-black uppercase tracking-normal rounded border border-blue-100 shrink-0">正在使用</span>
+                            <span class="text-xs font-normal"
+                                  :class="currentSourceId === src.id ? 'text-blue-500' : 'text-slate-400'">
+                                ({{ src.size }})
+                            </span>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2 mt-4 flex-wrap">
-                        <button v-if="!localFiles.includes(src.id) && downloadingId !== src.id" @click="downloadSource(src)" class="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold text-sm rounded-xl transition-colors flex items-center gap-1.5 w-full md:w-auto justify-center">
+                    <div class="flex items-center gap-2 mt-4 flex-wrap relative z-10">
+                        <button v-if="!localFiles.includes(src.id) && downloadingId !== src.id" @click="downloadSource(src)" class="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 font-bold text-sm rounded-xl transition-colors flex items-center gap-1.5 w-full md:w-auto justify-center">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>下载到本地
                         </button>
 
-                        <div v-if="downloadingId === src.id" class="w-full flex items-center gap-3">
+                        <div v-if="downloadingId === src.id" class="w-full flex items-center gap-3 bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
                             <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                                 <div class="h-full bg-blue-500 transition-all duration-300" :style="{width: downloadPercent + '%'}"></div>
                             </div>
@@ -107,12 +122,16 @@
                         </div>
 
                         <template v-if="localFiles.includes(src.id)">
-                            <button v-if="currentSourceId !== src.id" @click="switchSource(src.id)" class="px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-bold text-sm rounded-xl transition-colors flex-1 md:flex-none">
-                                切换
+                            <button v-if="currentSourceId !== src.id" @click="switchSource(src.id)" class="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 font-bold text-sm rounded-xl transition-colors flex-1 md:flex-none">
+                                切换数据源
                             </button>
-                            <button @click="deleteSource(src.id)" class="px-4 py-2 bg-red-50 text-red-500 hover:bg-red-100 font-bold text-sm rounded-xl transition-colors flex items-center gap-1.5 md:ml-auto w-full md:w-auto justify-center mt-2 md:mt-0">
+                            <button v-if="currentSourceId !== src.id" @click="deleteSource(src.id)" class="px-4 py-2 bg-red-50 text-red-500 hover:bg-red-100 font-bold text-sm rounded-xl transition-colors flex items-center gap-1.5 md:ml-auto w-full md:w-auto justify-center mt-2 md:mt-0">
                                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>删除
                             </button>
+
+                            <span v-if="currentSourceId === src.id" class="text-[13px] font-bold text-blue-500/80 md:ml-auto flex items-center gap-1.5 py-1">
+                                已加载至内存
+                            </span>
                         </template>
                     </div>
                 </div>
@@ -263,7 +282,7 @@
                         <div class="font-bold text-slate-800 text-[16px] md:text-[20px] group-hover:text-blue-600 mb-2 md:mb-3 leading-tight truncate">{{ child.name }}</div>
                         <div class="flex justify-between items-center border-t border-slate-50 pt-2 md:pt-3 mt-auto">
                             <span class="text-[11px] md:text-[15px] font-bold text-blue-600 uppercase tracking-normal">{{ child.type }}</span>
-                            <span class="text-[12px] md:text-[16px] font-mono text-slate-400 group-hover:text-slate-700">{{ child.code.slice(-4) }}</span>
+                            <span class="text-[12px] md:text-[16px] font-mono text-slate-400 group-hover:text-slate-700">{{ child.code }}</span>
                         </div>
                     </div>
                 </div>
@@ -285,7 +304,7 @@
                 <div class="font-bold text-slate-800 text-lg md:text-[24px] group-hover:text-blue-600 transition-colors leading-none">{{ province.name }}</div>
                 <div class="flex justify-between items-center border-t border-slate-100 pt-3 md:pt-4 mt-auto">
                     <span class="text-[12px] md:text-[16px] font-bold text-blue-600 uppercase tracking-normal">{{ province.type }}</span>
-                    <span class="text-sm md:text-[18px] font-mono text-slate-400 group-hover:text-blue-500">{{ province.code.slice(0,2) }}</span>
+                    <span class="text-sm md:text-[18px] font-mono text-slate-400 group-hover:text-blue-500">{{ province.code }}</span>
                 </div>
             </div>
         </div>
