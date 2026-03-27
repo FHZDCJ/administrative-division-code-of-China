@@ -16,7 +16,7 @@
 
 本项目现在已经提供在线查看与检索功能，现在可以[在线查看](https://fhzdcj.github.io/administrative-division-code-of-China/WebPages/OnlineQuery/)行政区划数据了。
 
-如果你的网络环境无法打开以上链接，可以通过[镜像站点](https://cn-admin.fhzdcj.cn/WebPages/OnlineQuery/)来查看。
+如果你的网络环境无法打开以上链接，可以通过[镜像站点(阿里云)](https://cn-admin.fhzdcj.cn/WebPages/OnlineQuery/) [镜像站点(腾讯云)](https://cn-admin-tc.fhzdcj.cn/WebPages/OnlineQuery/)来查看。
 
 ## 数据下载
 
@@ -56,13 +56,13 @@
 ## 镜像资源
 本项目除了Github Pages以外，还使用阿里云ESA提供的Pages服务。
 
-由于阿里云的免费Pages服务每天最多提供10万次请求，因此请注意访问频率以免超限。
+由于阿里云和腾讯云的免费Pages服务有限制，因此请注意访问频率以免超限。
 
 | 名称           | 地址                                                                                                                                 |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------|
 | Github Pages | [https://fhzdcj.github.io/administrative-division-code-of-China/](https://fhzdcj.github.io/administrative-division-code-of-China/) |
-| 阿里云Pages     | [https://cn-admin.fhzdcj.cn/](https://cn-admin.fhzdcj.cn/)                                                                         |
-
+| 阿里云 Pages    | [https://cn-admin.fhzdcj.cn/](https://cn-admin.fhzdcj.cn/)                                                                         |
+| 腾讯云 Pages    | [https://cn-admin-tc.fhzdcj.cn/](https://cn-admin-tc.fhzdcj.cn/)                                                                   |
 
 
 ## 特别说明
