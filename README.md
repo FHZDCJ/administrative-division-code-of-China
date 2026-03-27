@@ -2,6 +2,8 @@
 
 本项目提供中华人民共和国行政区划数据（4级：省级、地级、县级、乡级），并提供多种格式的副本。
 
+本项目的Github镜像地址为：[https://github.com/FHZDCJ/administrative-division-code-of-China](https://github.com/FHZDCJ/administrative-division-code-of-China)
+
 本项目的Gitee镜像地址为：[https://gitee.com/FHZDCJ/administrative-division-code-of-china](https://gitee.com/FHZDCJ/administrative-division-code-of-china)
 
 ## 数据来源
