@@ -22,6 +22,11 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* 优化移动端基础比例 */
+        @media (max-width: 640px) {
+            html { font-size: 14px; }
+        }
+
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
@@ -43,6 +48,8 @@
         .search-overlay { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); }
 
         .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important; }
+
+        .search-input-group { display: flex; width: 100%; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
@@ -50,60 +57,77 @@
 <div id="app" v-cloak class="max-w-[1440px] mx-auto p-4 md:p-8 relative flex-grow w-full">
 
     <transition name="toast">
-        <div v-if="toast.show" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 bg-slate-900 text-white rounded-2xl shadow-2xl font-bold flex items-center gap-3">
-            <span v-if="toast.type === 'error'" class="text-red-400">✕</span>
-            <span v-else class="text-green-400">✓</span>
-            {{ toast.msg }}
+        <div v-if="toast.show" class="fixed top-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 bg-slate-900/90 backdrop-blur-md text-white rounded-2xl shadow-2xl font-bold flex items-center gap-3 w-[90%] md:w-auto justify-center text-center border border-white/10 animate-in fade-in zoom-in duration-300">
+            <svg v-if="toast.type === 'error'" class="w-5 h-5 text-red-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+
+            <svg v-else class="w-5 h-5 text-green-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+
+            <span class="text-[15px] tracking-wide">{{ toast.msg }}</span>
         </div>
     </transition>
 
-    <div v-if="results.length > 1" class="fixed inset-0 z-[60] flex items-start justify-center pt-32 p-4 search-overlay" @click.self="results = []">
-        <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-200">
-            <div class="px-8 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+    <div v-if="results.length > 1" class="fixed inset-0 z-[60] flex items-start justify-center pt-10 md:pt-32 p-4 search-overlay" @click.self="results = []">
+        <div class="bg-white w-full max-w-4xl rounded-2xl md:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-200">
+            <div class="px-4 md:px-8 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <span class="text-blue-600 font-black text-xl">#</span>
-                    <span class="font-bold text-slate-700 text-lg">找到 {{ results.length }} 条匹配区划</span>
+                    <span class="font-bold text-slate-700 text-base md:text-lg">找到 {{ results.length }} 条匹配数据</span>
                 </div>
                 <button @click="results = []" class="icon-btn bg-transparent hover:bg-slate-200">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            <div class="max-h-[60vh] overflow-y-auto custom-scrollbar">
+            <div class="max-h-[70vh] overflow-y-auto custom-scrollbar">
                 <div v-for="item in results" :key="item.code" @click="selectNode(item)"
-                     class="px-8 py-5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 last:border-0 flex justify-between items-center group transition-colors">
-                    <div class="flex flex-col gap-1">
-                        <span class="text-slate-800 font-bold text-[18px] group-hover:text-blue-600">{{ item.fullPath }}</span>
-                        <span class="text-[13px] text-blue-600 font-black uppercase tracking-widest">{{ item.type }}</span>
+                     class="px-4 md:px-8 py-4 md:py-5 hover:bg-blue-50 cursor-pointer border-b border-slate-50 last:border-0 flex justify-between items-center group transition-colors">
+                    <div class="flex flex-col gap-1 min-w-0 pr-4">
+                        <span class="text-slate-800 font-bold text-base md:text-[18px] group-hover:text-blue-600 truncate">{{ item.fullPath }}</span>
+                        <span class="text-[11px] md:text-[13px] text-blue-600 font-black uppercase tracking-widest">{{ item.type }}</span>
                     </div>
-                    <div class="text-right flex items-center gap-4">
-                        <span class="text-[18px] font-mono text-slate-300 font-bold group-hover:text-slate-500">{{ item.code }}</span>
-                        <svg class="w-5 h-5 text-slate-200 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <div class="text-right flex items-center gap-2 md:gap-4 shrink-0">
+                        <span class="text-sm md:text-[18px] font-mono text-slate-300 font-bold group-hover:text-slate-500">{{ item.code }}</span>
+                        <svg class="w-4 h-4 text-slate-200 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div v-if="!isLoaded" class="fixed inset-0 bg-white/90 z-50 flex flex-col items-center justify-center">
+    <div v-if="!isLoaded" class="fixed inset-0 bg-white/90 z-50 flex flex-col items-center justify-center p-4 text-center">
         <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
         <p class="text-slate-500 font-bold text-lg tracking-widest uppercase">{{ statusMsg }}</p>
     </div>
 
-    <header class="mb-6 flex items-center justify-between border-b border-slate-200 pb-4">
-        <div class="flex items-center gap-4">
-            <h1 @click="goHome" class="text-3xl font-black text-slate-800 tracking-tighter cursor-pointer hover:opacity-80 transition-opacity">
+    <header class="mb-6 grid grid-cols-[1fr_auto] items-start md:flex md:flex-row md:items-center justify-between border-b border-slate-200 pb-4 gap-x-4 gap-y-2">
+        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 min-w-0">
+            <h1 @click="goHome" class="text-xl md:text-3xl font-black text-slate-800 tracking-tighter cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap">
                 行政区划查询系统 <span class="text-blue-500">.</span>
             </h1>
-            <div class="flex items-center gap-2 px-3 py-1 bg-green-50 text-green-600 text-[13px] font-bold rounded border border-green-100 select-none">
-                <span>数据更新至 {{ version }}</span>
-                <span class="w-[1px] h-3 bg-green-200 mx-1"></span>
-                <span class="opacity-70">数据仅供参考</span>
+
+            <div class="flex items-center gap-2 px-2 py-0.5 bg-green-50 text-green-600 text-[11px] md:text-[13px] font-bold rounded border border-green-100 select-none w-fit whitespace-nowrap">
+                <span>更新至 {{ version }}</span>
+                <span class="w-[1px] h-3 bg-green-200 mx-0.5"></span>
+                <span class="opacity-70">仅供参考</span>
             </div>
         </div>
-        <div class="flex items-center gap-3">
+
+        <div class="flex items-center gap-2 shrink-0 pt-1 md:pt-0">
+            <a href="https://gitee.com/FHZDCJ/administrative-division-code-of-china" target="_blank" class="icon-btn hover:text-[#C71D23] hover:bg-red-50" title="查看 Gitee 项目">
+                <svg class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor" d="M512 1024q-104 0-199-40-92-39-163-110T40 711Q0 616 0 512t40-199Q79 221 150 150T313 40q95-40 199-40t199 40q92 39 163 110t110 163q40 95 40 199t-40 199q-39 92-110 163T711 984q-95 40-199 40z m259-569H480q-10 0-17.5 7.5T455 480v64q0 10 7.5 17.5T480 569h177q11 0 18.5 7.5T683 594v13q0 31-22.5 53.5T607 683H367q-11 0-18.5-7.5T341 657V417q0-31 22.5-53.5T417 341h354q11 0 18-7t7-18v-63q0-11-7-18t-18-7H417q-38 0-72.5 14T283 283q-27 27-41 61.5T228 417v354q0 11 7 18t18 7h373q46 0 85.5-22.5t62-62Q796 672 796 626V480q0-10-7-17.5t-18-7.5z"></path>
+                </svg>
+            </a>
+
             <a href="https://github.com/FHZDCJ/administrative-division-code-of-China" target="_blank" class="icon-btn" title="查看 GitHub 项目">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.041-1.416-4.041-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             </a>
+
             <button @click="clearCache" class="icon-btn" title="获取最新数据">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
             </button>
@@ -111,29 +135,29 @@
     </header>
 
     <div class="sticky top-4 z-40 mb-10">
-        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200 p-1.5 flex items-center">
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200 p-1.5 search-input-group">
             <input
                 v-model="queryStr"
                 @keyup.enter="handleSearch"
                 type="text"
-                placeholder="输入行政代码或名称搜索(支持通配符*和?)"
-                class="flex-1 pl-6 py-4 bg-transparent text-xl font-medium placeholder:text-slate-300"
+                placeholder="输入行政代码或名称，支持通配符*和?"
+                class="flex-1 min-w-0 pl-4 md:pl-6 py-3 md:py-4 bg-transparent text-lg md:text-xl font-medium placeholder:text-slate-300"
             >
-            <button @click="handleSearch" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all active:scale-95 text-lg">
+            <button @click="handleSearch" class="whitespace-nowrap px-6 md:px-10 py-3 md:py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all active:scale-95 text-base md:text-lg">
                 检索
             </button>
         </div>
     </div>
 
     <div v-if="selectedNode" class="animate-in slide-in-from-bottom-2 duration-400 mb-10">
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-6">
-            <div class="p-8 bg-gradient-to-r from-blue-50/50 to-white flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-slate-100">
-                <div>
-                    <nav class="flex items-center gap-2 mb-4 flex-wrap">
-                        <span @click="goHome" class="cursor-pointer text-[16px] font-bold text-blue-500 hover:underline uppercase">全国</span>
+        <div class="bg-white rounded-2xl md:rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-6">
+            <div class="p-5 md:p-8 bg-gradient-to-r from-blue-50/50 to-white flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-b border-slate-100">
+                <div class="w-full">
+                    <nav class="flex items-center gap-2 mb-4 flex-wrap text-sm md:text-base">
+                        <span @click="goHome" class="cursor-pointer font-bold text-blue-500 hover:underline uppercase">全国</span>
                         <template v-for="(pathPart, idx) in pathNodes" :key="idx">
-                            <span class="text-slate-300 text-[16px]">/</span>
-                            <span @click="selectNodeByCode(pathPart.code)" class="cursor-pointer text-[16px] font-bold text-slate-500 hover:text-blue-600 uppercase">
+                            <span class="text-slate-300">/</span>
+                            <span @click="selectNodeByCode(pathPart.code)" class="cursor-pointer font-bold text-slate-500 hover:text-blue-600 uppercase">
                                 {{ pathPart.name }}
                             </span>
                         </template>
@@ -141,9 +165,9 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </div>
                     </nav>
-                    <div class="flex items-center gap-4">
-                        <h2 class="text-5xl font-black text-slate-800 tracking-tighter">{{ selectedNode.name }}</h2>
-                        <span class="px-4 py-1.5 bg-blue-600 text-white text-[16px] font-bold rounded-xl uppercase">
+                    <div class="flex items-center gap-3 md:gap-4 flex-wrap">
+                        <h2 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tighter">{{ selectedNode.name }}</h2>
+                        <span class="px-3 py-1 bg-blue-600 text-white text-[12px] md:text-[16px] font-bold rounded-lg md:rounded-xl uppercase">
                             {{ selectedNode.type }}
                         </span>
                         <div class="icon-btn scale-90" @click.stop="copyText(selectedNode.name)" title="复制名称">
@@ -151,12 +175,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-left md:text-right">
-                    <div class="text-[14px] font-black text-slate-400 uppercase tracking-widest mb-2 md:justify-end">
+                <div class="w-full md:w-auto md:shrink-0 border-t md:border-t-0 pt-4 md:pt-0">
+                    <div class="text-[12px] md:text-[14px] font-black text-slate-400 uppercase tracking-widest mb-1 md:mb-2 whitespace-nowrap">
                         行政区划代码
                     </div>
                     <div class="flex items-center md:justify-end gap-3">
-                        <div class="text-3xl font-mono text-slate-700 font-bold tracking-tight leading-none">
+                        <div class="text-2xl md:text-3xl font-mono text-slate-700 font-bold tracking-tight leading-none whitespace-nowrap">
                             {{ selectedNode.code }}
                         </div>
                         <div class="icon-btn scale-90" @click.stop="copyText(selectedNode.code)" title="复制行政代码">
@@ -166,40 +190,40 @@
                 </div>
             </div>
 
-            <div class="p-8">
-                <h3 class="text-xl font-black text-slate-700 mb-6 flex items-center gap-2">
+            <div class="p-5 md:p-8">
+                <h3 class="text-lg md:text-xl font-black text-slate-700 mb-6 flex items-center gap-2">
                     <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
                     下级区划 ({{ selectedNode.children ? selectedNode.children.length : 0 }})
                 </h3>
-                <div v-if="selectedNode.children && selectedNode.children.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div v-if="selectedNode.children && selectedNode.children.length > 0" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
                     <div v-for="child in selectedNode.children" :key="child.code" @click="selectNodeByCode(child.code)"
-                         class="node-card p-5 flex flex-col justify-between min-h-[110px] cursor-pointer group hover:bg-slate-50">
-                        <div class="font-bold text-slate-800 text-[20px] group-hover:text-blue-600 mb-3">{{ child.name }}</div>
-                        <div class="flex justify-between items-center border-t border-slate-50 pt-3">
-                            <span class="text-[15px] font-bold text-blue-600 uppercase tracking-tighter">{{ child.type }}</span>
-                            <span class="text-[16px] font-mono text-slate-500 group-hover:text-slate-700">{{ child.code }}</span>
+                         class="node-card p-4 md:p-5 flex flex-col justify-between min-h-[100px] md:min-h-[110px] cursor-pointer group hover:bg-slate-50">
+                        <div class="font-bold text-slate-800 text-[16px] md:text-[20px] group-hover:text-blue-600 mb-2 md:mb-3 leading-tight truncate">{{ child.name }}</div>
+                        <div class="flex justify-between items-center border-t border-slate-50 pt-2 md:pt-3 mt-auto">
+                            <span class="text-[11px] md:text-[15px] font-bold text-blue-600 uppercase tracking-normal">{{ child.type }}</span>
+                            <span class="text-[12px] md:text-[16px] font-mono text-slate-400 group-hover:text-slate-700">{{ child.code.slice(-4) }}</span>
                         </div>
                     </div>
                 </div>
-                <div v-else class="py-16 text-center rounded-3xl border-2 border-dashed border-slate-100">
-                    <p class="text-slate-300 font-bold text-[18px]">无下级区划数据</p>
+                <div v-else class="py-12 md:py-16 text-center rounded-2xl border-2 border-dashed border-slate-100">
+                    <p class="text-slate-300 font-bold text-base md:text-[18px]">无下级区划数据</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div v-if="!selectedNode && results.length <= 1" class="animate-in fade-in duration-500">
-        <h3 class="text-xl font-black text-slate-700 mb-6 flex items-center gap-2">
+        <h3 class="text-lg md:text-xl font-black text-slate-700 mb-6 flex items-center gap-2">
             <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
             全国 ({{ provinces.length }})
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-5">
             <div v-for="province in provinces" :key="province.code" @click="selectNode(province)"
-                 class="node-card p-5 flex flex-col gap-4 cursor-pointer group hover:bg-slate-50">
-                <div class="font-bold text-slate-800 text-[24px] group-hover:text-blue-600 transition-colors leading-none">{{ province.name }}</div>
-                <div class="flex justify-between items-center border-t border-slate-100 pt-4 mt-auto">
-                    <span class="text-[16px] font-bold text-blue-600 uppercase tracking-widest">{{ province.type }}</span>
-                    <span class="text-[18px] font-mono text-slate-400 group-hover:text-blue-500">{{ province.code.slice(0,2) }}</span>
+                 class="node-card p-4 md:p-5 flex flex-col gap-3 md:gap-4 cursor-pointer group hover:bg-slate-50">
+                <div class="font-bold text-slate-800 text-lg md:text-[24px] group-hover:text-blue-600 transition-colors leading-none">{{ province.name }}</div>
+                <div class="flex justify-between items-center border-t border-slate-100 pt-3 md:pt-4 mt-auto">
+                    <span class="text-[12px] md:text-[16px] font-bold text-blue-600 uppercase tracking-normal">{{ province.type }}</span>
+                    <span class="text-sm md:text-[18px] font-mono text-slate-400 group-hover:text-blue-500">{{ province.code.slice(0,2) }}</span>
                 </div>
             </div>
         </div>
@@ -208,7 +232,7 @@
 
 <script>
     const miniDb = (() => {
-        const dbName = 'xzqh-db-v2026-v2'; // 更新DB名称
+        const dbName = 'xzqh-db-v2026-v2';
         const storeName = 'keyval';
         const getDb = () => new Promise((resolve, reject) => {
             const request = indexedDB.open(dbName, 1);
@@ -244,7 +268,7 @@
             const queryStr = ref('');
             const isLoaded = ref(false);
             const statusMsg = ref('正在请求行政区划数据...');
-            const version = ref('载入中...'); // 新增响应式版本号
+            const version = ref('载入中...');
             const flatData = ref([]);
             const provinces = ref([]);
             const codeMap = ref(new Map());
@@ -279,23 +303,19 @@
 
             const loadData = async () => {
                 try {
-                    // 尝试从本地加载数据和版本号
                     let cachedData = await miniDb.get('xzqh-data-main');
                     let cachedVer = await miniDb.get('xzqh-data-version');
 
                     if (!cachedData || !cachedVer) {
                         const response = await fetch('https://api.816.ink/api/region?level=4&fields=code,name,level,type&extra=1');
                         const json = await response.json();
-
                         cachedData = json.data;
                         cachedVer = json.version;
-
-                        // 持久化存储
                         await miniDb.set('xzqh-data-main', cachedData);
                         await miniDb.set('xzqh-data-version', cachedVer);
                     }
 
-                    version.value = cachedVer; // 更新界面上的版本显示
+                    version.value = cachedVer;
                     buildIndex(cachedData);
                     isLoaded.value = true;
                 } catch (e) { statusMsg.value = '服务器连接异常'; }
