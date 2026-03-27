@@ -2,6 +2,8 @@
 
 本项目提供中华人民共和国行政区划数据（4级：省级、地级、县级、乡级），并提供多种格式的副本。
 
+本项目的Gitee镜像地址为：[https://gitee.com/FHZDCJ/administrative-division-code-of-china](https://gitee.com/FHZDCJ/administrative-division-code-of-china)
+
 ## 数据来源
 
 本项目数据来源于民政部旗下的[中国•国家地名信息库](https://dmfw.mca.gov.cn/XzqhVersionPublish.html)，本项目当前已更新至2025年数据（截止日期为2025年12月31日）。
@@ -10,9 +12,9 @@
 
 ## 在线查看
 
-本项目现在已经提供在线查看与检索功能，现在可以[在线查看](https://fhzdcj.github.io/administrative-division-code-of-China/WebPages/)行政区划数据了。
+本项目现在已经提供在线查看与检索功能，现在可以[在线查看](https://fhzdcj.github.io/administrative-division-code-of-China/WebPages/OnlineQuery/)行政区划数据了。
 
-如果你的网络环境无法打开以上链接，可以通过[镜像站点](https://cn-admin.fhzdcj.cn/WebPages/)来查看。
+如果你的网络环境无法打开以上链接，可以通过[镜像站点](https://cn-admin.fhzdcj.cn/WebPages/OnlineQuery/)来查看。
 
 ## 数据下载
 
@@ -74,6 +76,16 @@
 | 368 |   丰台区   | 110106 |     11      |   3   | 市辖区  |
 | ... | ....... | ...... |     ...     |  ...  | ...  |
 
-## 免责声明
 
-本项目的数据完全来源于民政部旗下的[中国•国家地名信息库](https://dmfw.mca.gov.cn/XzqhVersionPublish.html)，人工整理形成，除了删除了没有详细数据的台湾省、香港特别行政区、澳门特别行政区的区划信息以外，未作其他修改。若要使用本项目，请自行确保数据准确性。
+## 开源协议 (License)
+本项目采用 **Apache License 2.0** 协议，并附加以下 **商业使用条款**：
+- **允许：** 自由地在商业项目、公司内部系统、个人项目中使用或集成。
+- **禁止：** 严禁任何个人或法人在未对本项目进行实质性二次开发或功能增强的情况下，将本项目（或其原始代码、原始数据、原始文档的完整副本或镜像）作为独立商品进行直接销售、分发、转授权或租赁牟利。
+
+详细条款请参阅项目根目录下的 [LICENSE](./LICENSE) 文件。
+
+
+## 数据来源及免责声明
+
+本项目的数据来源于民政部的[中国•国家地名信息库](https://dmfw.mca.gov.cn/XzqhVersionPublish.html)，由人工整理形成，除了删除了没有详细数据的台湾省、香港特别行政区、澳门特别行政区的区划信息以外，未作其他修改。若要使用本项目，请自行确保数据准确性，项目作者不对但不对因数据错误或遗漏造成的任何损失负责。
+
