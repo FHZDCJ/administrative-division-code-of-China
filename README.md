@@ -14,9 +14,9 @@
 
 ## 在线查看
 
-本项目现在已经提供在线查看与检索功能，现在可以[在线查看](https://fhzdcj.github.io/administrative-division-code-of-China/WebPages/OnlineQuery/)行政区划数据了。
+本项目现在已经提供在线查看与检索功能，并开放历史数据查看，现在可以[在线查看](https://fhzdcj.github.io/administrative-division-code-of-China/WebPages/OnlineQuery/)行政区划数据并缓存至本地离线查看了。
 
-如果你的网络环境无法打开以上链接，可以通过[镜像站点(阿里云)](https://cn-admin.fhzdcj.cn/WebPages/OnlineQuery/) [镜像站点(腾讯云)](https://cn-admin-tc.fhzdcj.cn/WebPages/OnlineQuery/)来查看。
+你也可以访问[镜像站点(阿里云)](https://cn-admin.fhzdcj.cn/WebPages/OnlineQuery/)或[镜像站点(腾讯云)](https://cn-admin-tc.fhzdcj.cn/WebPages/OnlineQuery/)获得更快访问速度。
 
 ## 数据下载
 
