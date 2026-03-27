@@ -197,7 +197,7 @@
                 </h3>
                 <div v-if="selectedNode.children && selectedNode.children.length > 0" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
                     <div v-for="child in selectedNode.children" :key="child.code" @click="selectNodeByCode(child.code)"
-                         class="node-card p-4 md:p-5 flex flex-col justify-between min-h-[100px] md:min-h-[110px] cursor-pointer group hover:bg-slate-50">
+                         class="node-card p-4 md:p-5 flex flex-col justify-between cursor-pointer group hover:bg-slate-50">
                         <div class="font-bold text-slate-800 text-[16px] md:text-[20px] group-hover:text-blue-600 mb-2 md:mb-3 leading-tight truncate">{{ child.name }}</div>
                         <div class="flex justify-between items-center border-t border-slate-50 pt-2 md:pt-3 mt-auto">
                             <span class="text-[11px] md:text-[15px] font-bold text-blue-600 uppercase tracking-normal">{{ child.type }}</span>
