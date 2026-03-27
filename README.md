@@ -56,8 +56,6 @@
 ## 镜像资源
 本项目除了Github Pages以外，还使用阿里云ESA提供的Pages服务。
 
-由于阿里云和腾讯云的免费Pages服务有限制，因此请注意访问频率以免超限。
-
 | 名称           | 地址                                                                                                                                 |
 |--------------|------------------------------------------------------------------------------------------------------------------------------------|
 | Github Pages | [https://fhzdcj.github.io/administrative-division-code-of-China/](https://fhzdcj.github.io/administrative-division-code-of-China/) |
