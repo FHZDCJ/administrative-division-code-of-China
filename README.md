@@ -34,7 +34,7 @@
 | 文件                |           不包含行政区划编码           |                包含行政区划编码                 |
 |:------------------|:-----------------------------:|:---------------------------------------:|
 | 省级、地级（2级联动）       |   [pc.json](./Dist/pc.json)   |   [pc-code.json](./Dist/pc-code.json)   |
-| 省级、地级、县级（3级联动）    |  [pca.json](./Dist/pca.json)  |  [pca-code.json](./Dist/pca-code.son)   |
+| 省级、地级、县级（3级联动）    |  [pca.json](./Dist/pca.json)  |  [pca-code.json](./Dist/pca-code.json)  |
 | 省级、地级、县级、乡级（4级联动） | [pcas.json](./Dist/pcas.json) | [pcas-code.json](./Dist/pcas-code.json) |
 
 ## 原始数据预览
