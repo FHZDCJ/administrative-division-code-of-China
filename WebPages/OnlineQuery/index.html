@@ -328,9 +328,9 @@
     createApp({
         setup() {
             const dataSourcesList = ref([
-                { id: 'v251231', name: '2025.12.31民政部区划代码(4级)', url: './Data/v251231.json', size: '约2.2MB' },
-                { id: 'v230631_5', name: '2023.06.31统计用区划代码(5级)', url: './Data/v230631_5.json', size: '约35.4MB' },
-                { id: 'v230631_4', name: '2023.06.31统计用区划代码(4级)', url: './Data/v230631_4.json', size: '约1.9MB' }
+                { id: 'v251231', name: '2025.12.31民政部区划代码(4级)', url: './Data/v251231.json.gz', size: '解压前/解压后: 341KB/2.2MB' },
+                { id: 'v230631_5', name: '2023.06.31统计用区划代码(5级)', url: './Data/v230631_5.json.gz', size: '解压前/解压后: 5.1MB/35.4MB' },
+                { id: 'v230631_4', name: '2023.06.31统计用区划代码(4级)', url: './Data/v230631_4.json.gz', size: '解压前/解压后: 364KB/1.9MB' }
             ]);
 
             const queryStr = ref('');
@@ -399,6 +399,9 @@
                 return new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
                     xhr.open('GET', url);
+                    // 关键1：强制以二进制缓冲区的形式接收数据，防止浏览器按字符串乱码解析
+                    xhr.responseType = 'arraybuffer';
+
                     xhr.onprogress = (e) => {
                         if(e.lengthComputable) {
                             onProgress(e.loaded, e.total);
@@ -406,17 +409,38 @@
                             onProgress(e.loaded, e.loaded + 1024 * 50);
                         }
                     };
-                    xhr.onload = () => {
-                        if (xhr.status === 200 || xhr.status === 304 || (xhr.status === 0 && xhr.responseText)) {
+
+                    xhr.onload = async () => {
+                        if (xhr.status === 200 || xhr.status === 304 || (xhr.status === 0 && xhr.response)) {
                             try {
-                                resolve(JSON.parse(xhr.responseText));
+                                let jsonData;
+
+                                // 关键2：检测后缀，如果是 .gz 结尾则调用浏览器原生解压引擎
+                                if (url.toLowerCase().endsWith('.gz')) {
+                                    // 将 ArrayBuffer 包装为 Blob，并获取 ReadableStream
+                                    const blob = new Blob([xhr.response]);
+                                    const ds = new DecompressionStream('gzip');
+                                    // 管道流解压
+                                    const decompressedStream = blob.stream().pipeThrough(ds);
+                                    // 利用 Response 对象直接将解压后的流转为 JSON（自带 UTF-8 解码）
+                                    const decompressedResponse = new Response(decompressedStream);
+                                    jsonData = await decompressedResponse.json();
+                                } else {
+                                    // 向下兼容：如果还是普通的 json 文件，直接按文本解析
+                                    const textData = new TextDecoder('utf-8').decode(xhr.response);
+                                    jsonData = JSON.parse(textData);
+                                }
+
+                                resolve(jsonData);
                             } catch (err) {
-                                reject(new Error('JSON解析失败'));
+                                console.error('解压或解析错误:', err);
+                                reject(new Error('数据解压或解析失败，请确认文件是标准 gzip 格式'));
                             }
                         } else {
-                            reject(new Error(`加载失败: HTTP ${xhr.status}。请确保同目录下存在该JSON文件。`));
+                            reject(new Error(`加载失败: HTTP ${xhr.status}。请确保同目录下存在该GZ文件。`));
                         }
                     };
+
                     xhr.onerror = () => reject(new Error('网络请求错误，请避免直接双击HTML运行，建议使用本地 Server'));
                     xhr.send();
                 });
